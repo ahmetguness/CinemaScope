@@ -1,14 +1,48 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
 import { styles } from "./styles";
 import { useSelector } from "react-redux";
 import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import { COLORS } from "../../theme/colors";
+import Carousel from "react-native-reanimated-carousel";
+import MovieCard from "../../components/cards/MovieCard";
+
+import {
+  fetchPopulerPeople,
+  fetchTrendingMovies,
+} from "../../apiService/apiService";
+import MovieList from "../../components/lits/MovieList";
+import ActorList from "../../components/lits/ActorList";
 
 export default function HomeScreen({ navigation }) {
+  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [actorList, setActorList] = useState([]);
   const windowWidth = useSelector((state) => state.dimension.width);
   const windowHeight = useSelector((state) => state.dimension.height);
-  console.log(windowHeight, windowWidth);
+
+  useEffect(() => {
+    const getTrendingMovies = async () => {
+      try {
+        const movies = await fetchTrendingMovies();
+        setTrendingMovies(movies.results);
+      } catch (error) {
+        console.error("Error fetching trending movies:", error);
+      }
+    };
+
+    const getActors = async () => {
+      try {
+        const actors = await fetchPopulerPeople();
+        setActorList(actors.results);
+      } catch (error) {
+        console.error("Error fetching actors:", error);
+      }
+    };
+    getActors();
+    getTrendingMovies();
+  }, []);
+
+  console.log(actorList[0]);
 
   const title = () => {
     return (
@@ -35,6 +69,39 @@ export default function HomeScreen({ navigation }) {
           <FontAwesome name="search" size={26} color={COLORS.white} />
         </TouchableOpacity>
       </View>
+      <ScrollView>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: windowHeight * 0.02,
+          }}
+        >
+          <Text
+            style={{ color: COLORS.gray1, fontSize: 16, fontWeight: "bold" }}
+          >
+            Trending Movies
+          </Text>
+        </View>
+        <Carousel
+          style={{
+            marginTop: windowHeight * 0.02,
+            width: windowWidth,
+            height: windowWidth * 0.9,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          loop
+          width={windowWidth}
+          height={windowWidth * 0.8}
+          autoPlay={true}
+          data={trendingMovies}
+          scrollAnimationDuration={5000}
+          renderItem={({ item, index }) => <MovieCard item={item} />}
+        />
+        <MovieList />
+        <ActorList item={actorList} />
+      </ScrollView>
     </View>
   );
 }

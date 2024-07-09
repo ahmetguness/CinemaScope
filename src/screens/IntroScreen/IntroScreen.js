@@ -6,7 +6,6 @@ import { updateDimensions } from "../../redux/DimensionSlice";
 export default function IntroScreen({ navigation }) {
   const dispatcher = useDispatch();
   const { width, height } = Dimensions.get("window");
-  const asd = useSelector((state) => state.dimension);
 
   useEffect(() => {
     dispatcher(updateDimensions([width, height]));

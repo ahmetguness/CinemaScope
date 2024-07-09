@@ -3,6 +3,7 @@ import React from "react";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import IntroScreen from "../screens/IntroScreen/IntroScreen";
 import SearchScreen from "../screens/SearchScreen/SearchScreen";
+import MovieDetailsScreen from "../screens/MovieDetailsScreen/MovieDetailsScreen";
 
 export default function AppStackNavigation() {
   const Stack = createStackNavigator();
@@ -16,6 +17,7 @@ export default function AppStackNavigation() {
       <Stack.Screen name="IntroScreen" component={IntroScreen} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="SearchScreen" component={SearchScreen} />
+      <Stack.Screen name="MovieDetailsScreen" component={MovieDetailsScreen} />
     </Stack.Navigator>
   );
 }
