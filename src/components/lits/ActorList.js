@@ -6,11 +6,22 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { COLORS } from "../../theme/colors";
 import { img500 } from "../../apiService/apiService";
+import { useDispatch } from "react-redux";
+import { updateActorInfo } from "../../redux/ActorSlice";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ActorList({ item }) {
+  const dispatcher = useDispatch();
+  const navigation = useNavigation();
+
+  const handleActorDetails = (item) => {
+    dispatcher(updateActorInfo(item));
+    navigation.navigate("ActorDetailsScreen");
+  };
+
   return (
     <View style={styles.root}>
       <View style={styles.textContainer}>
@@ -26,29 +37,23 @@ export default function ActorList({ item }) {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
-          <View
-            style={{
-              flexDirection: "coulmn",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
+          <TouchableOpacity
+            onPress={() => handleActorDetails(item)}
+            activeOpacity={0.9}
+            style={styles.itemContainer}
           >
             <Image
-              style={{
-                height: 100,
-                width: 100,
-                marginHorizontal: "0.5%",
-                overflow: "hidden",
-                borderRadius: 50,
-                borderWidth: 1.75,
-                borderColor: COLORS.primaryYellow,
-              }}
+              style={styles.image}
               source={{ uri: `${img500}${item.profile_path}` }}
             />
-            <Text style={{ color: "white" }}>{item.name}</Text>
-          </View>
+            <Text style={styles.itemText}>
+              {item.name.length > 12
+                ? item.name.substring(0, 12) + "..."
+                : item.name}
+            </Text>
+          </TouchableOpacity>
         )}
-        style={{width:"100%"}}
+        contentContainerStyle={{ paddingRight: 10 }}
       />
     </View>
   );
@@ -63,5 +68,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginHorizontal: "5%",
     marginBottom: "4%",
+  },
+  itemContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 5,
+  },
+  image: {
+    height: 100,
+    width: 100,
+    overflow: "hidden",
+    borderRadius: 50,
+    borderWidth: 0.75,
+    borderColor: COLORS.gray1,
+  },
+  itemText: {
+    color: "white",
   },
 });

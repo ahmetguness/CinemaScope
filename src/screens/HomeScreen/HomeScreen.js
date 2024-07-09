@@ -8,6 +8,7 @@ import Carousel from "react-native-reanimated-carousel";
 import MovieCard from "../../components/cards/MovieCard";
 
 import {
+  fetchNowPlayingMovies,
   fetchPopulerPeople,
   fetchTrendingMovies,
 } from "../../apiService/apiService";
@@ -17,6 +18,7 @@ import ActorList from "../../components/lits/ActorList";
 export default function HomeScreen({ navigation }) {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [actorList, setActorList] = useState([]);
+  const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
   const windowWidth = useSelector((state) => state.dimension.width);
   const windowHeight = useSelector((state) => state.dimension.height);
 
@@ -38,11 +40,19 @@ export default function HomeScreen({ navigation }) {
         console.error("Error fetching actors:", error);
       }
     };
+
+    const getNowPlayingMovies = async () => {
+      try {
+        const nowPlayingMovies = await fetchNowPlayingMovies();
+        setNowPlayingMovies(nowPlayingMovies.results);
+      } catch (error) {
+        console.error("Error fetching now playing movies:", error);
+      }
+    };
+    getNowPlayingMovies();
     getActors();
     getTrendingMovies();
   }, []);
-
-  console.log(actorList[0]);
 
   const title = () => {
     return (
@@ -99,7 +109,7 @@ export default function HomeScreen({ navigation }) {
           scrollAnimationDuration={5000}
           renderItem={({ item, index }) => <MovieCard item={item} />}
         />
-        <MovieList />
+        <MovieList item={nowPlayingMovies} />
         <ActorList item={actorList} />
       </ScrollView>
     </View>

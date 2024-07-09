@@ -6,11 +6,21 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { COLORS } from "../../theme/colors";
+import { img500 } from "../../apiService/apiService";
+import { useDispatch } from "react-redux";
+import { updateMovieInfo } from "../../redux/MovieSlice";
+import { useNavigation } from "@react-navigation/native";
 
 export default function MovieList({ item }) {
-  const [data, setData] = useState([1, 2, 3, 4, 5, 6]);
+  const dispatcher = useDispatch();
+  const navigation = useNavigation();
+
+  const handleSelectMovie = (item) => {
+    dispatcher(updateMovieInfo(item));
+    navigation.navigate("MovieDetailsScreen");
+  };
 
   return (
     <View style={styles.root}>
@@ -23,27 +33,25 @@ export default function MovieList({ item }) {
         </TouchableOpacity>
       </View>
       <FlatList
-        data={data}
+        data={item}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingRight: 10 }}
         renderItem={({ item }) => (
-          <View
-            style={{
-              flexDirection: "coulmn",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
+          <TouchableOpacity
+            style={styles.itemContainer}
+            onPress={() => handleSelectMovie(item)}
           >
             <Image
-              style={{
-                height: 100,
-                width: 100,
-                marginHorizontal: "2%",
-              }}
-              source={require("../../assets/dummy_assets/dummy_cover2.jpg")}
+              style={styles.image}
+              source={{ uri: `${img500}${item.poster_path}` }}
             />
-            <Text style={{ color: "white" }}>asdasda</Text>
-          </View>
+            <Text style={styles.itemText}>
+              {item.title.length > 12
+                ? item.title.substring(0, 12) + "..."
+                : item.title}
+            </Text>
+          </TouchableOpacity>
         )}
       />
     </View>
@@ -59,5 +67,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginHorizontal: "5%",
     marginBottom: "4%",
+  },
+  itemContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 5,
+  },
+  image: {
+    height: 100,
+    width: 100,
+    overflow: "hidden",
+    borderWidth: 0.75,
+    borderColor: COLORS.gray1,
+  },
+  itemText: {
+    color: "white",
   },
 });

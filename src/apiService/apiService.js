@@ -8,7 +8,8 @@ export const img320 = "https://image.tmdb.org/t/p/w320/";
 export const img150 = "https://image.tmdb.org/t/p/w150/";
 
 const trendingMoviesEndpoint = `${baseUrl}trending/movie/day?api_key=${apiKey}`;
-const populerPeople = `${baseUrl}person/popular?api_key=${apiKey}`;
+const populerPeopleEndpoint = `${baseUrl}person/popular?api_key=${apiKey}`;
+const nowPlayingMoviesEndpoint = `${baseUrl}movie/now_playing?api_key=${apiKey}`;
 
 const apiCall = async (endpoint, params) => {
   const options = {
@@ -30,5 +31,9 @@ export async function fetchTrendingMovies() {
 }
 
 export async function fetchPopulerPeople() {
-  return await apiCall(populerPeople);
+  return await apiCall(populerPeopleEndpoint);
+}
+
+export async function fetchNowPlayingMovies() {
+  return await apiCall(nowPlayingMoviesEndpoint);
 }

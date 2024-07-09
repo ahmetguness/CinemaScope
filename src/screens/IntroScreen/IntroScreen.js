@@ -12,9 +12,14 @@ export default function IntroScreen({ navigation }) {
   }, []);
 
   return (
-    <View>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>IntroScreen</Text>
-      <Button title="NEXT" onPress={() => navigation.navigate("HomeScreen")} />
+      <View style={{ height: 100, width: 100, marginTop: 20 }}>
+        <Button
+          title="NEXT"
+          onPress={() => navigation.navigate("HomeScreen")}
+        />
+      </View>
     </View>
   );
 }
