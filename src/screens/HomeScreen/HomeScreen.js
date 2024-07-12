@@ -1,24 +1,27 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { styles } from "./styles";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import { COLORS } from "../../theme/colors";
 import Carousel from "react-native-reanimated-carousel";
 import MovieCard from "../../components/cards/MovieCard";
 
-import {
+import fetchGenreList, {
   fetchNowPlayingMovies,
   fetchPopulerPeople,
   fetchTrendingMovies,
 } from "../../apiService/apiService";
 import MovieList from "../../components/lits/MovieList";
 import ActorList from "../../components/lits/ActorList";
+import { updateGenres } from "../../redux/GenreSlice";
 
 export default function HomeScreen({ navigation }) {
+  const dispatcher = useDispatch();
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [actorList, setActorList] = useState([]);
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
+  const [genres, setGenres] = useState([]);
   const windowWidth = useSelector((state) => state.dimension.width);
   const windowHeight = useSelector((state) => state.dimension.height);
 
@@ -49,6 +52,18 @@ export default function HomeScreen({ navigation }) {
         console.error("Error fetching now playing movies:", error);
       }
     };
+
+    const getGenres = async () => {
+      try {
+        const genres = await fetchGenreList();
+        setGenres(genres.genres);
+        dispatcher(updateGenres(genres.genres));
+      } catch (error) {
+        console.error("Error fetching genres:", error);
+      }
+    };
+
+    getGenres();
     getNowPlayingMovies();
     getActors();
     getTrendingMovies();

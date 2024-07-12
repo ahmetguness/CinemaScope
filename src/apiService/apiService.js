@@ -10,6 +10,9 @@ export const img150 = "https://image.tmdb.org/t/p/w150/";
 const trendingMoviesEndpoint = `${baseUrl}trending/movie/day?api_key=${apiKey}`;
 const populerPeopleEndpoint = `${baseUrl}person/popular?api_key=${apiKey}`;
 const nowPlayingMoviesEndpoint = `${baseUrl}movie/now_playing?api_key=${apiKey}`;
+const genreListEndpoint = `${baseUrl}genre/movie/list?api_key=${apiKey}`;
+
+// https://api.themoviedb.org/3/genre/movie/list
 
 const apiCall = async (endpoint, params) => {
   const options = {
@@ -36,4 +39,8 @@ export async function fetchPopulerPeople() {
 
 export async function fetchNowPlayingMovies() {
   return await apiCall(nowPlayingMoviesEndpoint);
+}
+
+export default async function fetchGenreList() {
+  return await apiCall(genreListEndpoint);
 }
