@@ -12,6 +12,8 @@ const populerPeopleEndpoint = `${baseUrl}person/popular?api_key=${apiKey}`;
 const nowPlayingMoviesEndpoint = `${baseUrl}movie/now_playing?api_key=${apiKey}`;
 const genreListEndpoint = `${baseUrl}genre/movie/list?api_key=${apiKey}`;
 const discoverMoviesByGenreEndpoint = `${baseUrl}discover/movie?api_key=${apiKey}`;
+const similarMoviesEndpoint = (movieId) =>
+  `${baseUrl}movie/${movieId}/similar?api_key=${apiKey}`;
 
 const apiCall = async (endpoint, params) => {
   const options = {
@@ -47,4 +49,8 @@ export default async function fetchGenreList() {
 export async function fetchMoviesByGenre(genreId) {
   const params = { with_genres: genreId };
   return await apiCall(discoverMoviesByGenreEndpoint, params);
+}
+
+export async function fetchSimilarMovies(movieId) {
+  return await apiCall(similarMoviesEndpoint(movieId));
 }

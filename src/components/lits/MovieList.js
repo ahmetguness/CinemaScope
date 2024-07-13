@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import { updateMovieInfo } from "../../redux/MovieSlice";
 import { useNavigation } from "@react-navigation/native";
 
-export default function MovieList({ item }) {
+export default function MovieList({ item, title }) {
   const dispatcher = useDispatch();
   const navigation = useNavigation();
 
@@ -25,7 +25,7 @@ export default function MovieList({ item }) {
   return (
     <View style={styles.root}>
       <View style={styles.textContainer}>
-        <Text style={{ color: "white", fontSize: 15 }}>Top Movies</Text>
+        <Text style={{ color: "white", fontSize: 15 }}>{title}</Text>
         <TouchableOpacity activeOpacity={0.9}>
           <Text style={{ color: COLORS.primaryYellow, fontSize: 15 }}>
             See All

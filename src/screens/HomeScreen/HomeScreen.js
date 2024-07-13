@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { styles } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +21,11 @@ import fetchGenreList, {
 } from "../../apiService/apiService";
 import MovieList from "../../components/lits/MovieList";
 import ActorList from "../../components/lits/ActorList";
-import { updateGenres } from "../../redux/GenreSlice";
+import {
+  updateGenres,
+  updateSelectedGenreId,
+  updateSelectedGenreMovies,
+} from "../../redux/GenreSlice";
 
 export default function HomeScreen({ navigation }) {
   const dispatcher = useDispatch();
@@ -23,6 +33,7 @@ export default function HomeScreen({ navigation }) {
   const [actorList, setActorList] = useState([]);
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [loading, setLoading] = useState(true);
   const windowWidth = useSelector((state) => state.dimension.width);
   const windowHeight = useSelector((state) => state.dimension.height);
 
@@ -64,11 +75,27 @@ export default function HomeScreen({ navigation }) {
       }
     };
 
-    getGenres();
-    getNowPlayingMovies();
-    getActors();
-    getTrendingMovies();
+    const fetchData = async () => {
+      await getGenres();
+      await getNowPlayingMovies();
+      await getActors();
+      await getTrendingMovies();
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
+
+  const handleGenrePress = async (genreId) => {
+    try {
+      navigation.navigate("SelectedGenreMovieList");
+      const movies = await fetchMoviesByGenre(genreId);
+      dispatcher(updateSelectedGenreId(genreId));
+      dispatcher(updateSelectedGenreMovies(movies.results));
+    } catch (error) {
+      console.error("Error fetching movies by genre:", error);
+    }
+  };
 
   const title = () => {
     return (
@@ -95,39 +122,76 @@ export default function HomeScreen({ navigation }) {
           <FontAwesome name="search" size={26} color={COLORS.white} />
         </TouchableOpacity>
       </View>
-      <ScrollView>
+      {loading ? (
         <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: windowHeight * 0.02,
-          }}
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          <Text
-            style={{ color: COLORS.gray1, fontSize: 16, fontWeight: "bold" }}
-          >
-            Trending Movies
-          </Text>
+          <ActivityIndicator size="large" color={COLORS.primary} />
         </View>
-        <Carousel
-          style={{
-            marginTop: windowHeight * 0.02,
-            width: windowWidth,
-            height: windowWidth * 0.9,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          loop
-          width={windowWidth}
-          height={windowWidth * 0.8}
-          autoPlay={true}
-          data={trendingMovies}
-          scrollAnimationDuration={5000}
-          renderItem={({ item, index }) => <MovieCard item={item} />}
-        />
-        <MovieList item={nowPlayingMovies} />
-        <ActorList item={actorList} />
-      </ScrollView>
+      ) : (
+        <>
+          <View
+            style={{
+              marginTop: windowHeight * 0.02,
+            }}
+          >
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {genres.map((genre) => (
+                <TouchableOpacity
+                  key={genre.id}
+                  style={{
+                    marginHorizontal: 10,
+                    padding: 10,
+                    backgroundColor: COLORS.primary,
+                    borderRadius: 5,
+                  }}
+                  onPress={() => handleGenrePress(genre.id)}
+                >
+                  <Text style={{ color: COLORS.white }}>{genre.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+          <ScrollView>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: windowHeight * 0.005,
+              }}
+            >
+              <Text
+                style={{
+                  color: COLORS.gray1,
+                  fontSize: 16,
+                  fontWeight: "bold",
+                }}
+              >
+                Trending Movies
+              </Text>
+            </View>
+            <Carousel
+              style={{
+                marginTop: windowHeight * 0.02,
+                width: windowWidth,
+                height: windowWidth * 0.9,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              loop
+              width={windowWidth}
+              height={windowWidth * 0.8}
+              autoPlay={true}
+              data={trendingMovies}
+              scrollAnimationDuration={5000}
+              renderItem={({ item, index }) => <MovieCard item={item} />}
+            />
+
+            <MovieList item={nowPlayingMovies} title={"Top Movies"} />
+            <ActorList item={actorList} />
+          </ScrollView>
+        </>
+      )}
     </View>
   );
 }
