@@ -11,8 +11,7 @@ const trendingMoviesEndpoint = `${baseUrl}trending/movie/day?api_key=${apiKey}`;
 const populerPeopleEndpoint = `${baseUrl}person/popular?api_key=${apiKey}`;
 const nowPlayingMoviesEndpoint = `${baseUrl}movie/now_playing?api_key=${apiKey}`;
 const genreListEndpoint = `${baseUrl}genre/movie/list?api_key=${apiKey}`;
-
-// https://api.themoviedb.org/3/genre/movie/list
+const discoverMoviesByGenreEndpoint = `${baseUrl}discover/movie?api_key=${apiKey}`;
 
 const apiCall = async (endpoint, params) => {
   const options = {
@@ -43,4 +42,9 @@ export async function fetchNowPlayingMovies() {
 
 export default async function fetchGenreList() {
   return await apiCall(genreListEndpoint);
+}
+
+export async function fetchMoviesByGenre(genreId) {
+  const params = { with_genres: genreId };
+  return await apiCall(discoverMoviesByGenreEndpoint, params);
 }

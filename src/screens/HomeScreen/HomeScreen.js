@@ -8,6 +8,7 @@ import Carousel from "react-native-reanimated-carousel";
 import MovieCard from "../../components/cards/MovieCard";
 
 import fetchGenreList, {
+  fetchMoviesByGenre,
   fetchNowPlayingMovies,
   fetchPopulerPeople,
   fetchTrendingMovies,

@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { useSelector } from "react-redux";
@@ -21,10 +14,7 @@ export default function MovieDetailsScreen() {
   const windowheight = useSelector((state) => state.dimension.height);
   const genreList = useSelector((state) => state.genre.genres);
   const navigation = useNavigation();
-  console.log(genreList);
-  console.log(movieInfo);
 
-  // movieInfo.genre_ids ile genreList'teki eşleşen türleri bulmak
   const movieGenres = movieInfo.genre_ids
     .map((id) => genreList.find((genre) => genre.id === id))
     .filter(Boolean);
@@ -66,39 +56,46 @@ export default function MovieDetailsScreen() {
       />
       <View
         style={{
-          justifyContent: "center",
           alignItems: "center",
+          flexDirection: "row",
+          justifyContent: "center",
+          maxWidth: windowWidth,
+        }}
+      >
+        {movieGenres.map((genre) => (
+          <View
+            key={genre.id}
+            style={{
+              backgroundColor: COLORS.gray2,
+              borderRadius: 10,
+              paddingVertical: 5,
+              paddingHorizontal: 10,
+              marginRight: 5,
+              marginTop: 5,
+            }}
+          >
+            <Text style={{ color: "white", fontSize: 14 }}>{genre.name}</Text>
+          </View>
+        ))}
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          width: windowWidth,
+          justifyContent: "space-between",
           marginTop: "2%",
         }}
       >
-        <Text style={{ color: COLORS.gray1, fontSize: 16 }}>
-          Release Date: {movieInfo.release_date}
-        </Text>
-      </View>
-      <View style={{ flexDirection: "row" }}>
         <View
           style={{
-            alignItems: "center",
-            flexDirection: "row",
             justifyContent: "center",
-            maxWidth: windowWidth * 0.5,
+            alignItems: "center",
+            marginLeft: "4%",
           }}
         >
-          {movieGenres.map((genre) => (
-            <View
-              key={genre.id}
-              style={{
-                backgroundColor: COLORS.gray2,
-                borderRadius: 10,
-                paddingVertical: 5,
-                paddingHorizontal: 10,
-                marginRight: 5,
-                marginTop: 5,
-              }}
-            >
-              <Text style={{ color: "white", fontSize: 14 }}>{genre.name}</Text>
-            </View>
-          ))}
+          <Text style={{ color: COLORS.gray1, fontSize: 16 }}>
+            Release Date: {movieInfo.release_date}
+          </Text>
         </View>
         <View
           style={{
@@ -109,10 +106,11 @@ export default function MovieDetailsScreen() {
         >
           <View
             style={{
-              width: windowWidth,
+              width: windowWidth * 0.5,
               padding: "2%",
               justifyContent: "center",
               alignItems: "center",
+              marginRight: "4%",
             }}
           >
             <RatingStar
@@ -121,20 +119,23 @@ export default function MovieDetailsScreen() {
             />
           </View>
         </View>
-        <View style={{ marginHorizontal: "5%" }}>
-          <Text
-            style={{ color: COLORS.gray1, fontWeight: "bold", fontSize: 16 }}
-          >
-            OverView:
+      </View>
+      <View
+        style={{
+          marginHorizontal: "5%",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "2%",
+        }}
+      >
+        <Text style={{ color: COLORS.gray1, fontWeight: "bold", fontSize: 16 }}>
+          OverView:
+        </Text>
+        <ScrollView style={{ maxHeight: 100, minHeight: 100, marginTop: "2%" }}>
+          <Text style={{ color: COLORS.gray1, fontSize: 14 }}>
+            {movieInfo.overview}
           </Text>
-          <ScrollView
-            style={{ maxHeight: 100, minHeight: 100, marginTop: "2%" }}
-          >
-            <Text style={{ color: COLORS.gray1, fontSize: 14 }}>
-              {movieInfo.overview}
-            </Text>
-          </ScrollView>
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
