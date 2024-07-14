@@ -50,7 +50,7 @@ export default function MovieDetailsScreen() {
     .filter(Boolean);
 
   return (
-    <View style={styles.root}>
+    <ScrollView style={styles.root}>
       <View
         style={{
           width: windowWidth,
@@ -190,6 +190,6 @@ export default function MovieDetailsScreen() {
           )}
         </>
       )}
-    </View>
+    </ScrollView>
   );
 }
