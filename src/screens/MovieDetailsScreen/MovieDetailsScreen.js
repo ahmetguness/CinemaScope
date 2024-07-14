@@ -12,9 +12,14 @@ import { useSelector } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "../../theme/colors";
-import { img500, fetchSimilarMovies } from "../../apiService/apiService";
+import {
+  img500,
+  fetchSimilarMovies,
+  fetchMovieCredits,
+} from "../../apiService/apiService";
 import RatingStar from "../../components/RatingStar";
 import MovieList from "../../components/lits/MovieList";
+import ActorList from "../../components/lits/ActorList";
 
 export default function MovieDetailsScreen() {
   const movieInfo = useSelector((state) => state.movie.movieInfo);
@@ -22,11 +27,12 @@ export default function MovieDetailsScreen() {
   const windowheight = useSelector((state) => state.dimension.height);
   const genreList = useSelector((state) => state.genre.genres);
   const [similarMovies, setSimilarMovies] = useState([]);
+  const [cast, setCast] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
 
   useEffect(() => {
-    const getSimilarMovies = async () => {
+    const getMovieDetails = async () => {
       if (movieInfo && movieInfo.id) {
         try {
           const simMovies = await fetchSimilarMovies(movieInfo.id);
@@ -34,17 +40,21 @@ export default function MovieDetailsScreen() {
             (movie) => movie.poster_path
           );
           setSimilarMovies(filteredMovies);
+
+          const movieCast = await fetchMovieCredits(movieInfo.id);
+          setCast(movieCast.cast);
         } catch (error) {
-          console.error("Error fetching similar movies:", error);
+          console.error("Error fetching movie details:", error);
         } finally {
           setLoading(false);
         }
       }
     };
 
-    getSimilarMovies();
+    getMovieDetails();
   }, [movieInfo]);
 
+  console.log(cast)
   const movieGenres = movieInfo.genre_ids
     .map((id) => genreList.find((genre) => genre.id === id))
     .filter(Boolean);
@@ -181,6 +191,7 @@ export default function MovieDetailsScreen() {
               </Text>
             </ScrollView>
           </View>
+          <ActorList item={cast} />
           {similarMovies.length > 0 ? (
             <MovieList item={similarMovies} title={"Similar Movies"} />
           ) : (

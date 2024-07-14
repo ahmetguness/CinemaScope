@@ -6,7 +6,7 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import { COLORS } from "../../theme/colors";
 import { img500 } from "../../apiService/apiService";
 import { useDispatch } from "react-redux";
@@ -16,10 +16,13 @@ import { useNavigation } from "@react-navigation/native";
 export default function MovieList({ item, title }) {
   const dispatcher = useDispatch();
   const navigation = useNavigation();
+  const flatListRef = useRef(null);
 
   const handleSelectMovie = (item) => {
     dispatcher(updateMovieInfo(item));
     navigation.navigate("MovieDetailsScreen");
+
+    flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
   };
 
   return (
@@ -33,6 +36,7 @@ export default function MovieList({ item, title }) {
         </TouchableOpacity>
       </View>
       <FlatList
+        ref={flatListRef}
         data={item}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
