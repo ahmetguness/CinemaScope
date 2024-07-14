@@ -54,7 +54,6 @@ export default function MovieDetailsScreen() {
     getMovieDetails();
   }, [movieInfo]);
 
-  console.log(cast)
   const movieGenres = movieInfo.genre_ids
     .map((id) => genreList.find((genre) => genre.id === id))
     .filter(Boolean);
@@ -191,7 +190,7 @@ export default function MovieDetailsScreen() {
               </Text>
             </ScrollView>
           </View>
-          <ActorList item={cast} />
+          <ActorList item={cast} goNextPage={false} />
           {similarMovies.length > 0 ? (
             <MovieList item={similarMovies} title={"Similar Movies"} />
           ) : (

@@ -188,7 +188,7 @@ export default function HomeScreen({ navigation }) {
             />
 
             <MovieList item={nowPlayingMovies} title={"Top Movies"} />
-            <ActorList item={actorList} />
+            <ActorList item={actorList} goNextPage={true} />
           </ScrollView>
         </>
       )}

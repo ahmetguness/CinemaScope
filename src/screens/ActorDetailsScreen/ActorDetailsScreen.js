@@ -14,7 +14,6 @@ export default function ActorDetailsScreen() {
   const windowWidth = useSelector((state) => state.dimension.width);
   const windowheight = useSelector((state) => state.dimension.height);
   const actorDetails = useSelector((state) => state.actor.actorInfo);
-  console.log(actorDetails);
 
   const gender = actorDetails.gender === 1 ? "Female" : "Male";
 
@@ -82,7 +81,7 @@ export default function ActorDetailsScreen() {
             {`Popularity: ${actorDetails.popularity}`}
           </Text>
         </View>
-        {actorDetails.known_for.length > 0 ? (
+        {actorDetails.known_for && actorDetails.known_for.length > 0 ? (
           <View style={{ width: windowWidth, paddingHorizontal: "5%" }}>
             <Text
               style={{ color: COLORS.gray1, fontSize: 20, marginVertical: 10 }}

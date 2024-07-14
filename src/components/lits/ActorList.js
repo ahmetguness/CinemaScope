@@ -13,20 +13,23 @@ import { useDispatch } from "react-redux";
 import { updateActorInfo } from "../../redux/ActorSlice";
 import { useNavigation } from "@react-navigation/native";
 
-export default function ActorList({ item }) {
+export default function ActorList({ item, goNextPage }) {
   const dispatcher = useDispatch();
   const navigation = useNavigation();
 
-  const handleActorDetails = (item) => {
-    dispatcher(updateActorInfo(item));
-    navigation.navigate("ActorDetailsScreen");
-  };
+  const handleActorDetails =
+    goNextPage === true
+      ? (item) => {
+          dispatcher(updateActorInfo(item));
+          navigation.navigate("ActorDetailsScreen");
+        }
+      : () => null;
 
   return (
     <View style={styles.root}>
       <View style={styles.textContainer}>
         <Text style={{ color: "white", fontSize: 15 }}>Actors</Text>
-        <TouchableOpacity activeOpacity={0.9}>
+        <TouchableOpacity activeOpacity={1}>
           <Text style={{ color: COLORS.primaryYellow, fontSize: 15 }}>
             See All
           </Text>
