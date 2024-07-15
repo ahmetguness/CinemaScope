@@ -67,6 +67,7 @@ export default function MovieList({ item, title }) {
 const styles = StyleSheet.create({
   root: {
     marginTop: "2%",
+    marginBottom: "2%",
   },
   textContainer: {
     justifyContent: "space-between",

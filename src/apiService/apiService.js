@@ -16,6 +16,7 @@ const similarMoviesEndpoint = (movieId) =>
   `${baseUrl}movie/${movieId}/similar?api_key=${apiKey}`;
 const movieCreditsEndpoint = (movieId) =>
   `${baseUrl}movie/${movieId}/credits?api_key=${apiKey}`;
+const searchMoviesEndpoint = `${baseUrl}search/movie?api_key=${apiKey}`;
 
 const apiCall = async (endpoint, params) => {
   const options = {
@@ -59,4 +60,9 @@ export async function fetchSimilarMovies(movieId) {
 
 export async function fetchMovieCredits(movieId) {
   return await apiCall(movieCreditsEndpoint(movieId));
+}
+
+export async function searchMovies(query) {
+  const params = { query };
+  return await apiCall(searchMoviesEndpoint, params);
 }
