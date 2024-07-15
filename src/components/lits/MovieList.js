@@ -25,6 +25,8 @@ export default function MovieList({ item, title }) {
     flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
   };
 
+  const filteredData = item.filter((movie) => movie.poster_path);
+
   return (
     <View style={styles.root}>
       <View style={styles.textContainer}>
@@ -37,7 +39,7 @@ export default function MovieList({ item, title }) {
       </View>
       <FlatList
         ref={flatListRef}
-        data={item}
+        data={filteredData}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingRight: 10 }}

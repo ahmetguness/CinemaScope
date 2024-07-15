@@ -190,7 +190,9 @@ export default function MovieDetailsScreen() {
               </Text>
             </ScrollView>
           </View>
-          <ActorList item={cast} goNextPage={false} />
+          {cast && cast.length > 0 ? (
+            <ActorList item={cast} goNextPage={false} title={"Cast"} />
+          ) : null}
           {similarMovies.length > 0 ? (
             <MovieList item={similarMovies} title={"Similar Movies"} />
           ) : (

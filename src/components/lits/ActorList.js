@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import { updateActorInfo } from "../../redux/ActorSlice";
 import { useNavigation } from "@react-navigation/native";
 
-export default function ActorList({ item, goNextPage }) {
+export default function ActorList({ item, goNextPage, title }) {
   const dispatcher = useDispatch();
   const navigation = useNavigation();
 
@@ -25,10 +25,12 @@ export default function ActorList({ item, goNextPage }) {
         }
       : () => null;
 
+  const filteredData = item.filter((actor) => actor.profile_path);
+
   return (
     <View style={styles.root}>
       <View style={styles.textContainer}>
-        <Text style={{ color: "white", fontSize: 15 }}>Actors</Text>
+        <Text style={{ color: "white", fontSize: 15 }}>{title}</Text>
         <TouchableOpacity activeOpacity={1}>
           <Text style={{ color: COLORS.primaryYellow, fontSize: 15 }}>
             See All
@@ -36,7 +38,7 @@ export default function ActorList({ item, goNextPage }) {
         </TouchableOpacity>
       </View>
       <FlatList
-        data={item}
+        data={filteredData}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
