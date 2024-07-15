@@ -66,22 +66,23 @@ export default function MovieDetailsScreen() {
           height: windowheight * 0.07,
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "space-between",
           backgroundColor: COLORS.primaryColor,
+          paddingHorizontal: 10,
         }}
       >
-        <TouchableOpacity
-          style={{ position: "absolute", left: "4%" }}
-          onPress={() => navigation.goBack()}
-        >
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={30} color="white" />
         </TouchableOpacity>
         <Text
           style={{
             color: COLORS.gray1,
             fontSize: 20,
-            marginTop: "2%",
+            flex: 1,
+            textAlign: "center",
+            marginHorizontal: 40,
           }}
+          numberOfLines={1}
         >
           {movieInfo.title}
         </Text>

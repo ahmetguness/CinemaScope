@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { styles } from "./styles";
@@ -111,9 +112,10 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.root}>
       <View style={styles.navBar}>
-        <TouchableOpacity activeOpacity={0.8}>
-          <MaterialIcons name="menu" size={32} color={COLORS.white} />
-        </TouchableOpacity>
+        <Image
+          style={{ height: 35, width: 35 }}
+          source={require("../../assets/logos/logo.png")}
+        />
         {title()}
         <TouchableOpacity
           activeOpacity={0.8}

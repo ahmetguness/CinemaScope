@@ -59,6 +59,7 @@ export default function SearchScreen() {
   );
 
   const handleCancel = () => {
+    dispatcher(updateMovieInfo({}));
     navigation.goBack();
   };
 
