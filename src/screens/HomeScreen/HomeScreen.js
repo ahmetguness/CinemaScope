@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { styles } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
-import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { COLORS } from "../../theme/colors";
 import Carousel from "react-native-reanimated-carousel";
 import MovieCard from "../../components/cards/MovieCard";
@@ -102,7 +102,7 @@ export default function HomeScreen({ navigation }) {
     return (
       <View style={styles.titleContainer}>
         <Text style={styles.title2}>C</Text>
-        <Text style={styles.title1}>inema</Text>
+        <Text style={styles.title1}>ine</Text>
         <Text style={styles.title2}>S</Text>
         <Text style={styles.title1}>cope</Text>
       </View>
