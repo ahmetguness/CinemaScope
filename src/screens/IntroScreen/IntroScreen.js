@@ -1,14 +1,12 @@
 import {
   View,
   Text,
-  Button,
   Dimensions,
   ImageBackground,
   TouchableOpacity,
-  Image,
 } from "react-native";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateDimensions } from "../../redux/DimensionSlice";
 import { COLORS } from "../../theme/colors";
 
@@ -18,6 +16,12 @@ export default function IntroScreen({ navigation }) {
 
   useEffect(() => {
     dispatcher(updateDimensions([width, height]));
+
+    const timer = setTimeout(() => {
+      navigation.navigate("HomeScreen");
+    }, 4000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
