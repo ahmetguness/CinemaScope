@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.4",
+    "@react-native-community/netinfo": "^11.3.2",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/stack": "^6.4.0",
     "@reduxjs/toolkit": "^2.2.6",
