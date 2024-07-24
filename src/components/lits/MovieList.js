@@ -30,12 +30,7 @@ export default function MovieList({ item, title }) {
   return (
     <View style={styles.root}>
       <View style={styles.textContainer}>
-        <Text style={{ color: "white", fontSize: 15 }}>{title}</Text>
-        <TouchableOpacity activeOpacity={0.9}>
-          <Text style={{ color: COLORS.primaryYellow, fontSize: 15 }}>
-            See All
-          </Text>
-        </TouchableOpacity>
+        <Text style={{ color: COLORS.primaryYellow, fontSize: 15 }}>{title}</Text>
       </View>
       <FlatList
         ref={flatListRef}

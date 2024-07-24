@@ -132,7 +132,6 @@ export default function MovieDetailsScreen() {
             </View>
             <View
               style={{
-                flexDirection: "row",
                 width: windowWidth,
                 justifyContent: "space-between",
                 marginTop: "2%",
@@ -143,6 +142,7 @@ export default function MovieDetailsScreen() {
                   justifyContent: "center",
                   alignItems: "center",
                   marginLeft: "4%",
+                  marginBottom: "4%",
                 }}
               >
                 <Text style={{ color: COLORS.gray1, fontSize: 16 }}>
@@ -153,24 +153,9 @@ export default function MovieDetailsScreen() {
                 style={{
                   justifyContent: "center",
                   alignItems: "center",
-                  maxWidth: windowWidth * 0.5,
+                  maxWidth: windowWidth,
                 }}
-              >
-                <View
-                  style={{
-                    width: windowWidth * 0.5,
-                    padding: "2%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginRight: "4%",
-                  }}
-                >
-                  <RatingStar
-                    value={movieInfo.vote_average}
-                    voteCount={movieInfo.vote_count}
-                  />
-                </View>
-              </View>
+              ></View>
             </View>
             <View
               style={{
@@ -190,12 +175,30 @@ export default function MovieDetailsScreen() {
                 OverView:
               </Text>
               <ScrollView
-                style={{ maxHeight: 100, minHeight: 100, marginTop: "2%" }}
+                style={{
+                  maxHeight: 100,
+                  marginTop: "2%",
+                  marginBottom: "4%",
+                }}
               >
                 <Text style={{ color: COLORS.gray1, fontSize: 14 }}>
                   {movieInfo.overview}
                 </Text>
               </ScrollView>
+            </View>
+            <View
+              style={{
+                width: windowWidth,
+                padding: "2%",
+                justifyContent: "center",
+                alignItems: "center",
+                marginRight: "4%",
+              }}
+            >
+              <RatingStar
+                value={movieInfo.vote_average}
+                voteCount={movieInfo.vote_count}
+              />
             </View>
             {cast && cast.length > 0 ? (
               <ActorList item={cast} goNextPage={false} title={"Cast"} />
@@ -217,7 +220,8 @@ export default function MovieDetailsScreen() {
                 style={{
                   justifyContent: "center",
                   alignItems: "center",
-                  marginTop: "4%",
+                  marginTop: "6%",
+                  marginBottom: "6%"
                 }}
               >
                 <Text style={{ color: "white" }}>No Similar Movie Found</Text>
