@@ -1,6 +1,7 @@
+import { API_KEY } from '@env';
 import axios from "axios";
 
-const apiKey = "ee6b7de90b08eb078ae7c2cf3f78c481";
+const apiKey = API_KEY;
 const baseUrl = "https://api.themoviedb.org/3/";
 
 export const img500 = "https://image.tmdb.org/t/p/w500/";
